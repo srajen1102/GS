@@ -1,0 +1,230 @@
+Geeks for Geeks
+
+1.Given a String S, reverse the string without reversing its individual words. Words are separated by dots.
+
+Example 1:
+
+Input:
+S = i.like.this.program.very.much
+Output: much.very.program.this.like.i
+Explanation: After reversing the whole
+string(not individual words), the input
+string becomes
+much.very.program.this.like.i
+
+
+ import java.util.Stack;
+public class Main
+{
+	public static void main(String[] args) {
+		String str="i.like.this.program.very.much";
+		String[] s=str.split("\\.");
+		Stack<String> st=new Stack<>();
+	System.out.println(s.length);
+	for(int i=0;i<s.length;i++)
+	{
+	    st.push(s[i]);
+	}
+	for(int i=0;i<s.length;i++)
+	{
+	    String w=st.peek();
+	    System.out.print(w);
+	    System.out.print(".");
+	    st.pop();
+	    
+	}
+	}
+}
+_________________________________________________________________________________________________________________________________________________
+2.Egg dropping puzzle
+You are given N identical eggs and you have access to a K-floored building from 1 to K.
+
+There exists a floor f where 0 <= f <= K such that any egg dropped at a floor higher than f will break, and any egg dropped at or below floor f will not break. There are few rules given below. 
+
+An egg that survives a fall can be used again.
+A broken egg must be discarded.
+The effect of a fall is the same for all eggs.
+If the egg doesn't break at a certain floor, it will not break at any floor below.
+If the eggs breaks at a certain floor, it will break at any floor above.
+Return the minimum number of moves that you need to determine with certainty what the value of f is.
+
+
+static int eggDrop(int eggs, int floors) 
+	{int[][] minTrial=new int[eggs+1][floors+1];    
+   int res;
+
+   for (int i = 1; i <= eggs; i++) {   
+      minTrial[i][1] = 1;
+      minTrial[i][0] = 0;
+   }
+
+   for (int j = 1; j <= floors; j++)    
+      minTrial[1][j] = j;
+
+   for (int i = 2; i <= eggs; i++) {   
+      for (int j = 2; j <= floors; j++) {    
+         minTrial[i][j] = Integer.MAX_VALUE;
+         for (int k = 1; k <= j; k++) {
+            res = 1 + Math.max(minTrial[i-1][k-1], minTrial[i][j-k]);
+            if (res < minTrial[i][j])
+               minTrial[i][j] = res;
+         }
+      }
+   }
+
+   return minTrial[eggs][floors]; 
+	}
+	
+____________________________________________________________________________________________________________________________
+3.ugly number
+
+Ugly numbers are numbers whose only prime factors are 2, 3 or 5. The sequence 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, … shows the first 11 ugly numbers. By convention, 1 is included. Write a program to find Nth Ugly Number.
+
+
+class Solution {
+    /* Function to get the nth ugly number*/
+    long getNthUglyNo(int m) {
+       int i = 1;
+ 
+        // ugly number count
+        int count = 1;
+ 
+        // check for all integers
+        // until count becomes n
+        while (m > count) {
+            i++;
+            if (isUgly(i) == 1)
+                count++;
+        }
+        return i;
+    }
+static int maxDivide(int a, int b)
+    {
+        while (a % b == 0)
+            a = a / b;
+        return a;
+    }
+ 
+    /* Function to check if a number
+    is ugly or not */
+    static int isUgly(int no)
+    {
+        no = maxDivide(no, 2);
+        no = maxDivide(no, 3);
+        no = maxDivide(no, 5);
+ 
+        return (no == 1) ? 1 : 0;
+    }
+}
+
+
+_________________________________________________________________________________________________________________________________________________________________
+
+Wave array
+Given a sorted array arr[] of distinct integers. Sort the array into a wave-like array and return it
+In other words, arrange the elements into a sequence such that arr[1] >= arr[2] <= arr[3] >= arr[4] <= arr[5].....
+
+// { Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    
+	public static void main (String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine().trim()); //Inputting the testcases
+		
+		while(t-->0)
+		{
+		    int n = Integer.parseInt(br.readLine().trim());// taking size of array
+		    int arr[] = new int[n]; // declaring array of size n
+		    String inputLine[] = br.readLine().trim().split(" ");
+		    for(int i=0; i<n; i++){
+		        arr[i]=Integer.parseInt(inputLine[i]); // input elements of array
+		    }
+		    
+		    Solution obj = new Solution();
+		    
+		    
+		    obj.convertToWave(arr, n);
+		    
+		    StringBuffer sb = new StringBuffer(); 
+            for (int i = 0; i < n; i++) 
+                sb.append(arr[i] + " "); 
+                
+		    System.out.println(sb); // print array
+		}
+	}
+}
+
+
+ // } Driver Code Ends
+class Solution{
+
+    
+    // arr: input array
+    // n: size of the array
+    //Function to sort the array into a wave-like array.
+    public static void convertToWave(int a[], int n){
+        int temp;
+       if(n%2==0)
+       {
+           for(int i=0;i<n;i++)
+           {
+               if(i%2==0)
+               {
+               temp=a[i];
+               a[i]=a[i+1];
+               a[i+1]=temp;
+               }
+               //System.out.print(a[i]+"  ");
+           }
+           
+           
+       }
+       else
+       {
+          for(int i=0;i<n-1;i++)
+           {
+               if(i%2==0)
+               {
+               temp=a[i];
+               a[i]=a[i+1];
+               a[i+1]=temp;
+               }
+               //System.out.print(a[i]+"  ");
+           } 
+         //  System.out.print(a[n-1]);
+           
+       }
+        
+    }
+    
+}
+
+
+// { Driver Code Starts.
+  // } Driver Code Ends
+  
+  _________________________________________________________________________________________________________________________________________________________________
+  5.Given two rectangles, find if the given two rectangles overlap or not. A rectangle is denoted by providing the x and y coordinates of two points: the left top corner and the right bottom corner of the rectangle. Two rectangles sharing a side are considered overlapping. (L1 and R1 are the extreme points of the first rectangle and L2 and R2 are the extreme points of the second rectangle).
+	Note: It may be assumed that the rectangles are parallel to the coordinate axis.
+  // User function Template for Java
+
+class Solution {
+    int doOverlap(int L1[], int R1[], int L2[], int R2[]) {
+      
+            if (L1[0] > R2[0] ||L2[0] > R1[0]) {
+            return 0;
+        }
+ 
+        // If one rectangle is above other
+        if (R1[1] > L2[1] || R2[1] > L1[1]) {
+            return 0;
+        }
+ 
+        return 1;
+    }
+};
+________________________________________________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________________________________________________
